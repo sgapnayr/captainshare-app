@@ -1,12 +1,12 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
-import { COLORS } from '../constants';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {COLORS} from '../constants';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../components/Header';
-import { ScrollView } from 'react-native-virtualized-view';
-import { categories, recommendedDoctors } from '../data';
-import HorizontalDoctorCard from '../components/HorizontalDoctorCard';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import {ScrollView} from 'react-native-virtualized-view';
+import {categories, recommendedDoctors} from '../data';
+import HorizontalDoctorCard from '../components/HorizonalCaptainsCard';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
 interface TopDoctorsProps {
   navigation: any; // You may replace 'any' with a specific navigation type if you have it.
@@ -14,17 +14,21 @@ interface TopDoctorsProps {
 
 const TopDoctors: React.FC<TopDoctorsProps> = () => {
   const navigation = useNavigation<NavigationProp<any>>();
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(["0"]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(['0']);
 
-  const filteredDoctors = recommendedDoctors.filter(doctor =>
-    selectedCategories.includes("0") || selectedCategories.includes(doctor.categoryId)
+  const filteredDoctors = recommendedDoctors.filter(
+    doctor =>
+      selectedCategories.includes('0') ||
+      selectedCategories.includes(doctor.categoryId),
   );
 
   // Category item
-  const renderCategoryItem = ({ item }: { item: { id: string; name: string; } }) => (
+  const renderCategoryItem = ({item}: {item: {id: string; name: string}}) => (
     <TouchableOpacity
       style={{
-        backgroundColor: selectedCategories.includes(item.id) ? COLORS.primary : "transparent",
+        backgroundColor: selectedCategories.includes(item.id)
+          ? COLORS.primary
+          : 'transparent',
         padding: 10,
         marginVertical: 5,
         borderColor: COLORS.primary,
@@ -32,11 +36,15 @@ const TopDoctors: React.FC<TopDoctorsProps> = () => {
         borderRadius: 24,
         marginRight: 12,
       }}
-      onPress={() => toggleCategory(item.id)}
-    >
-      <Text style={{
-        color: selectedCategories.includes(item.id) ? COLORS.white : COLORS.primary
-      }}>{item.name}</Text>
+      onPress={() => toggleCategory(item.id)}>
+      <Text
+        style={{
+          color: selectedCategories.includes(item.id)
+            ? COLORS.white
+            : COLORS.primary,
+        }}>
+        {item.name}
+      </Text>
     </TouchableOpacity>
   );
 
@@ -55,13 +63,12 @@ const TopDoctors: React.FC<TopDoctorsProps> = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.area, { backgroundColor: COLORS.white }]}>
-      <View style={[styles.container, { backgroundColor: COLORS.white }]}>
+    <SafeAreaView style={[styles.area, {backgroundColor: COLORS.white}]}>
+      <View style={[styles.container, {backgroundColor: COLORS.white}]}>
         <Header title="Top Doctors" />
         <ScrollView
           style={styles.scrollView}
-          showsVerticalScrollIndicator={false}
-        >
+          showsVerticalScrollIndicator={false}>
           <FlatList
             data={categories}
             keyExtractor={item => item.id}
@@ -69,14 +76,15 @@ const TopDoctors: React.FC<TopDoctorsProps> = () => {
             horizontal
             renderItem={renderCategoryItem}
           />
-          <View style={{
-            backgroundColor: COLORS.secondaryWhite,
-            marginVertical: 16
-          }}>
+          <View
+            style={{
+              backgroundColor: COLORS.secondaryWhite,
+              marginVertical: 16,
+            }}>
             <FlatList
               data={filteredDoctors}
               keyExtractor={item => item.id}
-              renderItem={({ item }) => (
+              renderItem={({item}) => (
                 <HorizontalDoctorCard
                   name={item.name}
                   image={item.image}
@@ -86,7 +94,7 @@ const TopDoctors: React.FC<TopDoctorsProps> = () => {
                   rating={item.rating}
                   numReviews={item.numReviews}
                   isAvailable={item.isAvailable}
-                  onPress={() => navigation.navigate("doctordetails")}
+                  onPress={() => navigation.navigate('doctordetails')}
                 />
               )}
             />
@@ -95,7 +103,7 @@ const TopDoctors: React.FC<TopDoctorsProps> = () => {
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   area: {

@@ -1,14 +1,22 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, FlatList } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
-import { COLORS, SIZES, icons } from '../constants';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { categories, doctors, ratings } from '../data';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  FlatList,
+} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {COLORS, SIZES, icons} from '../constants';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {categories, doctors, ratings} from '../data';
 import NotFoundCard from '../components/NotFoundCard';
-import RBSheet from "react-native-raw-bottom-sheet";
+import RBSheet from 'react-native-raw-bottom-sheet';
 import Button from '../components/Button';
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import HorizontalDoctorCard from '../components/HorizontalDoctorCard';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import HorizontalDoctorCard from '../components/HorizonalCaptainsCard';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
 interface SearchProps {
   navigation: any; // You may replace 'any' with a specific navigation type if you have it.
@@ -17,8 +25,8 @@ interface SearchProps {
 const Search: React.FC<SearchProps> = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const refRBSheet = useRef<any>(null);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(["1"]);
-  const [selectedRating, setSelectedRating] = useState<string[]>(["1"]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(['1']);
+  const [selectedRating, setSelectedRating] = useState<string[]>(['1']);
 
   const renderHeader = () => {
     return (
@@ -27,19 +35,19 @@ const Search: React.FC<SearchProps> = () => {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image
               source={icons.back}
-              resizeMode='contain'
-              style={[styles.backIcon, { tintColor: COLORS.greyscale900 }]}
+              resizeMode="contain"
+              style={[styles.backIcon, {tintColor: COLORS.greyscale900}]}
             />
           </TouchableOpacity>
-          <Text style={[styles.headerTitle, { color: COLORS.greyscale900 }]}>
+          <Text style={[styles.headerTitle, {color: COLORS.greyscale900}]}>
             Search
           </Text>
         </View>
         <TouchableOpacity>
           <Image
             source={icons.moreCircle}
-            resizeMode='contain'
-            style={[styles.moreIcon, { tintColor: COLORS.greyscale900 }]}
+            resizeMode="contain"
+            style={[styles.moreIcon, {tintColor: COLORS.greyscale900}]}
           />
         </TouchableOpacity>
       </View>
@@ -57,8 +65,8 @@ const Search: React.FC<SearchProps> = () => {
     }, [searchQuery, selectedTab]);
 
     const handleSearch = () => {
-      const allDoctors = doctors.filter((doctor) =>
-        doctor.name.toLowerCase().includes(searchQuery.toLowerCase())
+      const allDoctors = doctors.filter(doctor =>
+        doctor.name.toLowerCase().includes(searchQuery.toLowerCase()),
       );
       setFilteredDoctors(allDoctors);
       setResultsCount(allDoctors.length);
@@ -67,33 +75,51 @@ const Search: React.FC<SearchProps> = () => {
     return (
       <View>
         <View
-          style={[styles.searchBarContainer, { backgroundColor: COLORS.secondaryWhite }]}>
+          style={[
+            styles.searchBarContainer,
+            {backgroundColor: COLORS.secondaryWhite},
+          ]}>
           <TouchableOpacity onPress={handleSearch}>
-            <Image source={icons.search2} resizeMode='contain' style={[styles.searchIcon, {
-              tintColor: COLORS.grayscale700
-            }]} />
+            <Image
+              source={icons.search2}
+              resizeMode="contain"
+              style={[
+                styles.searchIcon,
+                {
+                  tintColor: COLORS.grayscale700,
+                },
+              ]}
+            />
           </TouchableOpacity>
           <TextInput
-            placeholder='Search'
+            placeholder="Search"
             placeholderTextColor={COLORS.gray}
-            style={[styles.searchInput, { color: COLORS.greyscale900 }]}
+            style={[styles.searchInput, {color: COLORS.greyscale900}]}
             value={searchQuery}
-            onChangeText={(text) => setSearchQuery(text)}
+            onChangeText={text => setSearchQuery(text)}
           />
           <TouchableOpacity onPress={() => refRBSheet.current?.open()}>
-            <Image source={icons.filter} resizeMode='contain' style={[styles.filterIcon, {
-              tintColor: COLORS.grayscale700
-            }]} />
+            <Image
+              source={icons.filter}
+              resizeMode="contain"
+              style={[
+                styles.filterIcon,
+                {
+                  tintColor: COLORS.grayscale700,
+                },
+              ]}
+            />
           </TouchableOpacity>
         </View>
 
-        <View style={{ backgroundColor: COLORS.secondaryWhite, marginVertical: 16 }}>
+        <View
+          style={{backgroundColor: COLORS.secondaryWhite, marginVertical: 16}}>
           {resultsCount && resultsCount > 0 ? (
             <FlatList
               data={filteredDoctors}
-              keyExtractor={(item) => item.id}
+              keyExtractor={item => item.id}
               showsVerticalScrollIndicator={false}
-              renderItem={({ item }) => (
+              renderItem={({item}) => (
                 <HorizontalDoctorCard
                   name={item.name}
                   image={item.image}
@@ -103,7 +129,7 @@ const Search: React.FC<SearchProps> = () => {
                   rating={item.rating}
                   numReviews={item.numReviews}
                   isAvailable={item.isAvailable}
-                  onPress={() => navigation.navigate("doctordetails")}
+                  onPress={() => navigation.navigate('doctordetails')}
                 />
               )}
             />
@@ -141,10 +167,12 @@ const Search: React.FC<SearchProps> = () => {
     setSelectedRating(updatedRatings);
   };
 
-  const renderCategoryItem = ({ item }: { item: { id: string; name: string; } }) => (
+  const renderCategoryItem = ({item}: {item: {id: string; name: string}}) => (
     <TouchableOpacity
       style={{
-        backgroundColor: selectedCategories.includes(item.id) ? COLORS.primary : "transparent",
+        backgroundColor: selectedCategories.includes(item.id)
+          ? COLORS.primary
+          : 'transparent',
         padding: 10,
         marginVertical: 5,
         borderColor: COLORS.primary,
@@ -152,18 +180,24 @@ const Search: React.FC<SearchProps> = () => {
         borderRadius: 24,
         marginRight: 12,
       }}
-      onPress={() => toggleCategory(item.id)}
-    >
-      <Text style={{
-        color: selectedCategories.includes(item.id) ? COLORS.white : COLORS.primary
-      }}>{item.name}</Text>
+      onPress={() => toggleCategory(item.id)}>
+      <Text
+        style={{
+          color: selectedCategories.includes(item.id)
+            ? COLORS.white
+            : COLORS.primary,
+        }}>
+        {item.name}
+      </Text>
     </TouchableOpacity>
   );
 
-  const renderRatingItem = ({ item }: { item: { id: string; title: string; } }) => (
+  const renderRatingItem = ({item}: {item: {id: string; title: string}}) => (
     <TouchableOpacity
       style={{
-        backgroundColor: selectedRating.includes(item.id) ? COLORS.primary : "transparent",
+        backgroundColor: selectedRating.includes(item.id)
+          ? COLORS.primary
+          : 'transparent',
         paddingHorizontal: 16,
         paddingVertical: 6,
         marginVertical: 5,
@@ -171,23 +205,33 @@ const Search: React.FC<SearchProps> = () => {
         borderWidth: 1.3,
         borderRadius: 24,
         marginRight: 12,
-        flexDirection: "row",
-        alignItems: "center",
+        flexDirection: 'row',
+        alignItems: 'center',
       }}
-      onPress={() => toggleRating(item.id)}
-    >
-      <View style={{ marginRight: 6 }}>
-        <FontAwesome name="star" size={14} color={selectedRating.includes(item.id) ? COLORS.white : COLORS.primary} />
+      onPress={() => toggleRating(item.id)}>
+      <View style={{marginRight: 6}}>
+        <FontAwesome
+          name="star"
+          size={14}
+          color={
+            selectedRating.includes(item.id) ? COLORS.white : COLORS.primary
+          }
+        />
       </View>
-      <Text style={{
-        color: selectedRating.includes(item.id) ? COLORS.white : COLORS.primary
-      }}>{item.title}</Text>
+      <Text
+        style={{
+          color: selectedRating.includes(item.id)
+            ? COLORS.white
+            : COLORS.primary,
+        }}>
+        {item.title}
+      </Text>
     </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView style={[styles.area, { backgroundColor: COLORS.white }]}>
-      <View style={[styles.container, { backgroundColor: COLORS.white }]}>
+    <SafeAreaView style={[styles.area, {backgroundColor: COLORS.white}]}>
+      <View style={[styles.container, {backgroundColor: COLORS.white}]}>
         {renderHeader()}
         {renderContent()}
         <RBSheet
@@ -196,24 +240,27 @@ const Search: React.FC<SearchProps> = () => {
           height={384}
           customStyles={{
             wrapper: {
-              backgroundColor: "rgba(0,0,0,0.5)",
+              backgroundColor: 'rgba(0,0,0,0.5)',
             },
             draggableIcon: {
-              backgroundColor: "#000",
+              backgroundColor: '#000',
             },
             container: {
               borderTopRightRadius: 32,
               borderTopLeftRadius: 32,
               height: 384,
               backgroundColor: COLORS.white,
-              alignItems: "center",
-            }
-          }}
-        >
-          <Text style={[styles.bottomTitle, { color: COLORS.greyscale900 }]}>Filter</Text>
+              alignItems: 'center',
+            },
+          }}>
+          <Text style={[styles.bottomTitle, {color: COLORS.greyscale900}]}>
+            Filter
+          </Text>
           <View style={styles.separateLine} />
-          <View style={{ width: SIZES.width - 32 }}>
-            <Text style={[styles.sheetTitle, { color: COLORS.greyscale900 }]}>Category</Text>
+          <View style={{width: SIZES.width - 32}}>
+            <Text style={[styles.sheetTitle, {color: COLORS.greyscale900}]}>
+              Category
+            </Text>
             <FlatList
               data={categories}
               keyExtractor={item => item.id}
@@ -222,7 +269,9 @@ const Search: React.FC<SearchProps> = () => {
               renderItem={renderCategoryItem}
             />
 
-            <Text style={[styles.sheetTitle, { color: COLORS.greyscale900 }]}>Rating</Text>
+            <Text style={[styles.sheetTitle, {color: COLORS.greyscale900}]}>
+              Rating
+            </Text>
             <FlatList
               data={ratings}
               keyExtractor={item => item.id}
@@ -241,7 +290,7 @@ const Search: React.FC<SearchProps> = () => {
                 width: (SIZES.width - 32) / 2 - 8,
                 backgroundColor: COLORS.tansparentPrimary,
                 borderRadius: 32,
-                borderColor: COLORS.tansparentPrimary
+                borderColor: COLORS.tansparentPrimary,
               }}
               textColor={COLORS.primary}
               onPress={() => refRBSheet.current?.close()}
@@ -262,21 +311,21 @@ const Search: React.FC<SearchProps> = () => {
 const styles = StyleSheet.create({
   area: {
     flex: 1,
-    backgroundColor: COLORS.white
+    backgroundColor: COLORS.white,
   },
   container: {
     flex: 1,
     paddingHorizontal: 16,
   },
   headerContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: 24,
   },
   headerLeft: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   backIcon: {
     width: 24,
@@ -285,15 +334,15 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 20,
-    fontWeight: "700",
+    fontWeight: '700',
   },
   moreIcon: {
     width: 24,
     height: 24,
   },
   searchBarContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     borderRadius: 24,
     paddingVertical: 6,
     paddingHorizontal: 12,
@@ -314,7 +363,7 @@ const styles = StyleSheet.create({
   },
   bottomTitle: {
     fontSize: 18,
-    fontWeight: "700",
+    fontWeight: '700',
     marginVertical: 24,
   },
   separateLine: {
@@ -324,12 +373,12 @@ const styles = StyleSheet.create({
   },
   sheetTitle: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
     marginTop: 16,
   },
   bottomContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginTop: 24,
     paddingBottom: 12,
   },

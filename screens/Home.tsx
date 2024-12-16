@@ -1,13 +1,22 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList, Image, ListRenderItemInfo } from 'react-native';
-import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { ScrollView } from 'react-native-virtualized-view';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { banners, categories, recommendedDoctors } from '../data';
-import { COLORS, icons, images, SIZES } from '../constants';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  FlatList,
+  Image,
+  ListRenderItemInfo,
+} from 'react-native';
+import React, {useState} from 'react';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {ScrollView} from 'react-native-virtualized-view';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {banners, categories, recommendedDoctors} from '../data';
+import {COLORS, icons, images, SIZES} from '../constants';
 import SubHeaderItem from '../components/SubHeaderItem';
 import Category from '../components/Category';
-import HorizontalDoctorCard from '../components/HorizontalDoctorCard';
+import HorizontalDoctorCard from '../components/HorizonalCaptainsCard';
 
 interface BannerItem {
   id: number;
@@ -30,7 +39,7 @@ const Home = () => {
   const keyExtractor = (item: BannerItem) => item.id.toString();
 
   const handleEndReached = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
+    setCurrentIndex(prevIndex => (prevIndex + 1) % banners.length);
   };
 
   const renderDot = (index: number) => {
@@ -42,7 +51,7 @@ const Home = () => {
     );
   };
 
-  const renderBannerItem = ({ item }: ListRenderItemInfo<BannerItem>) => (
+  const renderBannerItem = ({item}: ListRenderItemInfo<BannerItem>) => (
     <View style={styles.bannerContainer}>
       <View style={styles.bannerTopContainer}>
         <View>
@@ -58,50 +67,54 @@ const Home = () => {
     </View>
   );
   /**
-  * Render header
-  */
+   * Render header
+   */
   const renderHeader = () => {
     return (
       <View style={styles.headerContainer}>
         <View style={styles.viewLeft}>
           <Image
-            source={images.user1}
-            resizeMode='contain'
+            source={icons.user}
+            resizeMode="contain"
             style={styles.userIcon}
           />
           <View style={styles.viewNameContainer}>
             <Text style={styles.greeeting}>Good Morning👋</Text>
-            <Text style={[styles.title, {
-              color: COLORS.greyscale900
-            }]}>Andrew Ainsley</Text>
+            <Text
+              style={[
+                styles.title,
+                {
+                  color: COLORS.greyscale900,
+                },
+              ]}>
+              User
+            </Text>
           </View>
         </View>
         <View style={styles.viewRight}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("notifications")}>
+            onPress={() => navigation.navigate('notifications')}>
             <Image
               source={icons.notificationBell2}
-              resizeMode='contain'
-              style={[styles.bellIcon, { tintColor: COLORS.greyscale900 }]}
+              resizeMode="contain"
+              style={[styles.bellIcon, {tintColor: COLORS.greyscale900}]}
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("favourite")}>
+          <TouchableOpacity onPress={() => navigation.navigate('favourite')}>
             <Image
               source={icons.heartOutline}
-              resizeMode='contain'
-              style={[styles.bookmarkIcon, { tintColor: COLORS.greyscale900 }]}
+              resizeMode="contain"
+              style={[styles.bookmarkIcon, {tintColor: COLORS.greyscale900}]}
             />
           </TouchableOpacity>
         </View>
       </View>
-    )
-  }
+    );
+  };
   /**
-  * Render search bar
-  */
+   * Render search bar
+   */
   const renderSearchBar = () => {
-
     const handleInputFocus = () => {
       // Redirect to another screen
       navigation.navigate('search');
@@ -109,19 +122,22 @@ const Home = () => {
 
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate("search")}
-        style={[styles.searchBarContainer, {
-          backgroundColor: COLORS.secondaryWhite
-        }]}>
+        onPress={() => navigation.navigate('search')}
+        style={[
+          styles.searchBarContainer,
+          {
+            backgroundColor: COLORS.secondaryWhite,
+          },
+        ]}>
         <TouchableOpacity>
           <Image
             source={icons.search2}
-            resizeMode='contain'
+            resizeMode="contain"
             style={styles.searchIcon}
           />
         </TouchableOpacity>
         <TextInput
-          placeholder='Search'
+          placeholder="Search"
           placeholderTextColor={COLORS.gray}
           style={styles.searchInput}
           onFocus={handleInputFocus}
@@ -129,17 +145,17 @@ const Home = () => {
         <TouchableOpacity>
           <Image
             source={icons.filter}
-            resizeMode='contain'
+            resizeMode="contain"
             style={styles.filterIcon}
           />
         </TouchableOpacity>
       </TouchableOpacity>
-    )
-  }
+    );
+  };
 
   /**
-  * Render banner
-  */
+   * Render banner
+   */
   const renderBanner = () => {
     return (
       <View style={styles.bannerItemContainer}>
@@ -152,9 +168,9 @@ const Home = () => {
           showsHorizontalScrollIndicator={false}
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.5}
-          onMomentumScrollEnd={(event) => {
+          onMomentumScrollEnd={event => {
             const newIndex = Math.round(
-              event.nativeEvent.contentOffset.x / SIZES.width
+              event.nativeEvent.contentOffset.x / SIZES.width,
             );
             setCurrentIndex(newIndex);
           }}
@@ -163,27 +179,26 @@ const Home = () => {
           {banners.map((_, index) => renderDot(index))}
         </View>
       </View>
-    )
-  }
+    );
+  };
 
   /**
-  * Render categories
-  */
+   * Render categories
+   */
   const renderCategories = () => {
-
     return (
       <View>
         <SubHeaderItem
           title="Categories"
           navTitle="See all"
-          onPress={() => navigation.navigate("categories")}
+          onPress={() => navigation.navigate('categories')}
         />
         <FlatList
           data={categories.slice(1, 9)}
           keyExtractor={(item, index) => index.toString()}
           horizontal={false}
           numColumns={4} // Render two items per row
-          renderItem={({ item, index }) => (
+          renderItem={({item, index}) => (
             <Category
               name={item.name}
               icon={item.icon}
@@ -193,22 +208,28 @@ const Home = () => {
           )}
         />
       </View>
-    )
-  }
+    );
+  };
 
   /**
    * render top doctor
    */
   const renderTopDoctors = () => {
-    const [selectedCategories, setSelectedCategories] = useState(["1"]);
+    const [selectedCategories, setSelectedCategories] = useState(['1']);
 
-    const filteredDoctors = recommendedDoctors.filter(doctor => selectedCategories.includes("0") || selectedCategories.includes(doctor.categoryId));
+    const filteredDoctors = recommendedDoctors.filter(
+      doctor =>
+        selectedCategories.includes('0') ||
+        selectedCategories.includes(doctor.categoryId),
+    );
 
     // Category item
-    const renderCategoryItem = ({ item }: { item: CategoryItem }) => (
+    const renderCategoryItem = ({item}: {item: CategoryItem}) => (
       <TouchableOpacity
         style={{
-          backgroundColor: selectedCategories.includes(item.id) ? COLORS.primary : "transparent",
+          backgroundColor: selectedCategories.includes(item.id)
+            ? COLORS.primary
+            : 'transparent',
           padding: 10,
           marginVertical: 5,
           borderColor: COLORS.primary,
@@ -217,9 +238,14 @@ const Home = () => {
           marginRight: 12,
         }}
         onPress={() => toggleCategory(item.id)}>
-        <Text style={{
-          color: selectedCategories.includes(item.id) ? COLORS.white : COLORS.primary
-        }}>{item.name}</Text>
+        <Text
+          style={{
+            color: selectedCategories.includes(item.id)
+              ? COLORS.white
+              : COLORS.primary,
+          }}>
+          {item.name}
+        </Text>
       </TouchableOpacity>
     );
 
@@ -240,9 +266,9 @@ const Home = () => {
     return (
       <View>
         <SubHeaderItem
-          title="Top Doctors"
+          title="Top Captains"
           navTitle="See all"
-          onPress={() => navigation.navigate("topdoctors")}
+          onPress={() => navigation.navigate('topdoctors')}
         />
         <FlatList
           data={categories}
@@ -251,36 +277,37 @@ const Home = () => {
           horizontal
           renderItem={renderCategoryItem}
         />
-        <View style={{
-          backgroundColor: COLORS.secondaryWhite,
-          marginVertical: 16
-        }}>
+        <View
+          style={{
+            backgroundColor: COLORS.secondaryWhite,
+            marginVertical: 16,
+          }}>
           <FlatList
             data={filteredDoctors}
             keyExtractor={item => item.id}
-            renderItem={({ item }) => {
+            renderItem={({item}) => {
               return (
                 <HorizontalDoctorCard
                   name={item.name}
                   image={item.image}
-                  distance={item.distance}
-                  consultationFee={item.consultationFee}
-                  hospital={item.hospital}
+                  distance={item.license}
+                  hourlyRate={item.hourlyRate}
+                  hospital={item.location}
                   rating={item.rating}
                   numReviews={item.numReviews}
                   isAvailable={item.isAvailable}
-                  onPress={() => navigation.navigate("doctordetails")}
+                  onPress={() => navigation.navigate('doctordetails')}
                 />
-              )
+              );
             }}
           />
         </View>
       </View>
-    )
-  }
+    );
+  };
   return (
-    <SafeAreaView style={[styles.area, { backgroundColor: COLORS.white }]}>
-      <View style={[styles.container, { backgroundColor: COLORS.white }]}>
+    <SafeAreaView style={[styles.area, {backgroundColor: COLORS.white}]}>
+      <View style={[styles.container, {backgroundColor: COLORS.white}]}>
         {renderHeader()}
         <ScrollView showsVerticalScrollIndicator={false}>
           {renderSearchBar()}
@@ -290,62 +317,63 @@ const Home = () => {
         </ScrollView>
       </View>
     </SafeAreaView>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
   area: {
     flex: 1,
-    backgroundColor: COLORS.white
+    backgroundColor: COLORS.white,
   },
   container: {
     flex: 1,
     backgroundColor: COLORS.white,
-    padding: 16
+    padding: 16,
   },
   headerContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     width: SIZES.width - 32,
-    justifyContent: "space-between",
-    alignItems: "center"
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: 16,
   },
   userIcon: {
     width: 48,
     height: 48,
-    borderRadius: 32
+    borderRadius: 32,
   },
   viewLeft: {
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   greeeting: {
     fontSize: 12,
-    fontFamily: "Urbanist Regular",
-    color: "gray",
-    marginBottom: 4
+    fontFamily: 'Urbanist Regular',
+    color: 'gray',
+    marginBottom: 4,
   },
   title: {
     fontSize: 20,
-    fontFamily: "Urbanist Bold",
-    color: COLORS.greyscale900
+    fontFamily: 'Urbanist Bold',
+    color: COLORS.greyscale900,
   },
   viewNameContainer: {
-    marginLeft: 12
+    marginLeft: 12,
   },
   viewRight: {
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   bellIcon: {
     height: 24,
     width: 24,
     tintColor: COLORS.black,
-    marginRight: 8
+    marginRight: 8,
   },
   bookmarkIcon: {
     height: 24,
     width: 24,
-    tintColor: COLORS.black
+    tintColor: COLORS.black,
   },
   searchBarContainer: {
     width: SIZES.width - 32,
@@ -354,24 +382,24 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     height: 52,
     marginVertical: 16,
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   searchIcon: {
     height: 24,
     width: 24,
-    tintColor: COLORS.gray
+    tintColor: COLORS.gray,
   },
   searchInput: {
     flex: 1,
     fontSize: 16,
-    fontFamily: "Urbanist Regular",
-    marginHorizontal: 8
+    fontFamily: 'Urbanist Regular',
+    marginHorizontal: 8,
   },
   filterIcon: {
     width: 24,
     height: 24,
-    tintColor: COLORS.primary
+    tintColor: COLORS.primary,
   },
   bannerContainer: {
     width: SIZES.width - 32,
@@ -379,56 +407,56 @@ const styles = StyleSheet.create({
     paddingHorizontal: 28,
     paddingTop: 28,
     borderRadius: 32,
-    backgroundColor: COLORS.primary
+    backgroundColor: COLORS.primary,
   },
   bannerTopContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   bannerDicount: {
     fontSize: 12,
-    fontFamily: "Urbanist Medium",
+    fontFamily: 'Urbanist Medium',
     color: COLORS.white,
-    marginBottom: 4
+    marginBottom: 4,
   },
   bannerDiscountName: {
     fontSize: 16,
-    fontFamily: "Urbanist Bold",
-    color: COLORS.white
+    fontFamily: 'Urbanist Bold',
+    color: COLORS.white,
   },
   bannerDiscountNum: {
     fontSize: 46,
-    fontFamily: "Urbanist Bold",
-    color: COLORS.white
+    fontFamily: 'Urbanist Bold',
+    color: COLORS.white,
   },
   bannerBottomContainer: {
-    marginTop: 8
+    marginTop: 8,
   },
   bannerBottomTitle: {
     fontSize: 14,
-    fontFamily: "Urbanist Medium",
-    color: COLORS.white
+    fontFamily: 'Urbanist Medium',
+    color: COLORS.white,
   },
   bannerBottomSubtitle: {
     fontSize: 14,
-    fontFamily: "Urbanist Medium",
+    fontFamily: 'Urbanist Medium',
     color: COLORS.white,
-    marginTop: 4
+    marginTop: 4,
   },
   userAvatar: {
     width: 64,
     height: 64,
-    borderRadius: 999
+    borderRadius: 999,
   },
   firstName: {
     fontSize: 16,
-    fontFamily: "Urbanist SemiBold",
+    fontFamily: 'Urbanist SemiBold',
     color: COLORS.dark2,
-    marginTop: 6
+    marginTop: 6,
   },
   bannerItemContainer: {
-    width: "100%",
+    width: '100%',
     paddingBottom: 10,
     backgroundColor: COLORS.primary,
     height: 170,
@@ -449,8 +477,7 @@ const styles = StyleSheet.create({
   },
   activeDot: {
     backgroundColor: COLORS.white,
-  }
+  },
+});
 
-})
-
-export default Home
+export default Home;
